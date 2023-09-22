@@ -1,0 +1,106 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>How to get Assetto Corsa running on Linux</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+  body {
+    background-color: #242424;
+    font-family: cantarell;
+    color: #ffffff;
+    text-align: start;
+  }
+  a:link, a:visited {
+    color: #3584e4;
+  }
+</style>
+<body>
+<p></p>
+<p><a href="index.html">Back to Home</a></p>
+<h1>How to get Assetto Corsa running on Linux</h1>
+  <p>I made this guide for future reference for me since no other guides online worked, including the ones that use the latest Proton GE. This is a mix of guides I found online and bug reports which show you how to get a working Assetto Corsa, Content Manager, and Sol/Pure install. This guide was last tested on Sep 14, 2023 using Nobara 38.</p>
+<h2>Preparations</h2>
+  <p>To get started, we need to make sure there aren't any previous Assetto Corsa or Proton 5 installs. If you've never installed Assetto Corsa or Proton 5 before this, you can skip to step 3.</p>
+  
+  <p><b>1.</b> Right click Assetto Corsa in your Steam library (If it exists), go to Manage, and Uninstall. Also delete any previous launch options by right clicking Assetto Corsa in your Steam library, going to Properties, and deleting anything under Launch Options (If present).</p>
+  
+  <p><b>2.</b> In your Steam library click the 'GAMES' dropdown, select tools, and search proton 5. Then, right click Proton 5.0, go to Manage, and Uninstall. You can now unselect tools in the 'GAMES' dropdown if you'd like.</p>
+  
+  <p><b>3.</b> Run these commands to make sure Assetto Corsa and Proton 5 are fully uninstalled and replace the /path-to-your-Steam-folder in the following commands with the actual path to your Steam directory:</p>
+  <p><code>rm -r /path-to-your-Steam-folder/steamapps/common/assettocorsa</code></p>
+  <p><code>rm -r /path-to-your-Steam-folder/steamapps/common/Proton 5.0</code></p>
+  <p><code>rm -r /path-to-your-Steam-folder/steamapps/compdata/244210</code></p>
+  <p><code>rm -r /path-to-your-Steam-folder/steamapps/compdata/1245040</code></p>
+  
+  <p><b>4.</b> Protontricks is a tool that we will be using to install windows libraries. Here's how to install it: <a href="https://github.com/Matoking/protontricks#installation">https://github.com/Matoking/protontricks#installation</a> If you are using the non-flatpak version of Steam on Fedora/Nobara, just run <code>sudo dnf install protontricks</code></p>
+
+  <h2>Base game installation</h2>
+  
+  <p><b>1.</b> To get started, right click Assetto Corsa in your Steam library, go to Properties, Compatability, select "Force the use of a specific Steam Play compatability tool", and choose Proton 5.0-10 from the dropdown. You can now start the installation of Assetto Corsa.</p>
+  <p><b>2.</b> Once the game is installed, start it. It will crash, but that's normal, we just need the prefix it generates.</p>
+  
+  <p><b>3.</b> After Assetto Corsa has crashed from step 2, run the following command, then pick 'Wine Mono Windows Support' from the list and remove it:</p>
+  <p><code>protontricks -c "wine uninstaller" 244210</code></p>
+  
+  <p><b>4.</b> Run the following commands one after the other. They may take a while to complete.</p>
+  <p><code>protontricks --no-background-wineserver 244210 winxp</code> (When protontricks asks you which version of windows select Windows XP from the dropdown)</p>
+  <p><code>protontricks --no-background-wineserver 244210 shell</code></p>
+  
+  <p><b>5.</b> Run these commands to create a new directory and download .NET:</p>
+  <p><code>mkdir ~/ac_temp && cd $_ && curl -L https://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe --output dotNetFx40_Full_x86_x64.exe</code></p>
+  <p><code>wine dotNetFx40_Full_x86_x64.exe /q</code></p>
+  <p><code>exit</code></p>
+  
+  <p><b>6.</b> Run these commands:</p>
+  <p><code>protontricks --no-background-wineserver 244210 win7</code> (When protontricks (in a window) ask you which version of windows select Windows 7 from the dropdown)</p>
+  <p><code>protontricks --no-background-wineserver 244210 mscoree=native</code></p>
+  <p><code>protontricks --no-background-wineserver 244210 shell</code></p>
+  
+  <p><b>7.</b> Run these commands to install another .NET:</p>
+  <p><code>cd ~/ac_temp && curl -L https://web.archive.org/web/20210816191501if_/https://download.microsoft.com/download/9/E/6/9E63300C-0941-4B45-A0EC-0008F96DD480/NDP471-KB4033342-x86-x64-AllOS-ENU.exe --output NDP471-KB4033342-x86-x64-AllOS-ENU.exe</code></p>
+  <p><code>wine NDP471-KB4033342-x86-x64-AllOS-ENU.exe /q</code></p>
+  <p><code>exit</code></p>
+  
+  <p><b>8.</b> Run these commands to install some windows libraries:</p>
+  <p><code>protontricks --no-background-wineserver 244210 -q vcrun2015</code> (When protontricks asks you which version of windows select Windows 7 from the dropdown)</p>
+  <p><code>protontricks --no-background-wineserver 244210 -q d3dcompiler_47</code></p>
+  <p><code>protontricks --no-background-wineserver 244210 win10</code> (When protontricks asks you which version of windows select Windows 10 from the dropdown)</p>
+  <p>Congratulations! If you made it this far, you should have a working Assetto Corsa install. If you don't want Content Manager, you can stop following the guide here. Important: Changing the Proton version and launching the game will break your prefix, so you should always have a backup of your pfx directory at /path-to-your-Steam-folder/steamapps/compatdata/244210. That way you can just copy back your backup in case you break your prefix, saving you from having to go through all these steps again.</p>
+<h2>Content Manager installation</h2>
+  
+  <p><b>1.</b> Firstly, we need to create a symlink to your loginusers.vdf file so Content Manager can find it. Replace the /path-to-your-Steam-folder in the following commands with the actual path to your Steam directory:</p>
+  <p><code>mkdir /path-to-your-Steam-folder/steamapps/compatdata/244210/pfx/drive_c/Program\ Files\ \(x86\)/Steam/config</code></p>
+  <p><code>ln -s $HOME/.steam/root/config/loginusers.vdf /path-to-your-Steam-folder/steamapps/compatdata/244210/pfx/drive_c/Program\ Files\ \(x86\)/Steam/config/loginusers.vdf</code></p>
+  
+  <p><b>2.</b> Download Content Manager from <a href="https://acstuff.ru/app/latest.zip">https://acstuff.ru/app/latest.zip</a></p>
+  
+  <p><b>3.</b> Extract Content Manager.exe to your game's installation directory. You can find it by right-clicking Assetto Corsa in Steam, then going to Manage, Browse local files.</p>
+  
+  <p><b>4.</b> Rename Content Manager.exe to Content Manager Safe.exe. This fixes the flickering problem by disabling hardware acceleration in its UI.</p>
+  
+  <p><b>5.</b> Set the Assetto Corsa launch parameters in Steam to start Content Manager instead. Right-click Assetto Corsa in Steam and paste the following parameters after modifying replacing user with your username:</p>
+  <p><code>/home/user/.local/share/Steam/steamapps/common/'Proton 5.0'/proton waitforexitandrun "/home/user/.local/share/Steam/steamapps/common/assettocorsa/Content Manager Safe.exe"; PROTON_USE_DXVK=1 echo %command%</code></p>
+  
+  <p><b>6.</b> Run this command and copy the result:</p>
+  <p><code>echo 'Z:\home\'$USER'\.steam\root\steamapps\common\assettocorsa'</code></p>
+  
+  <p><b>7.</b> Launch the game, this might take a while. Set your installation folder by pasting the result from step 6, then set your player name and exit the launcher.</p>
+  <p>Nice! Content Manager is set up. Scroll down to install Custom Shaders Patch.</p>
+<h2>Custom Shaders Patch installation</h2>
+  
+  <p><b>1.</b> Run the following command:</p>
+  <p><code>protontricks -c winecfg 244210</code></p>
+  
+  <p><b>2.</b> Go to the 'Libraries' tab, type dwrite into the 'New override for library' textbox and click 'Add'.</p>
+  
+  <p><b>3.</b> Look for dwrite in the list and make sure it also says 'native, built-in'. If it doesn't, switch it via the 'Edit' menu. Then, click 'OK' to close the window.</p>
+  
+  <p><b>4.</b> Run the following command:</p>
+  <p><code>protontricks --no-background-wineserver 244210 corefonts</code></p>
+  
+  <p><b>5.</b> Download Custom Shaders Patch version v0.1.78 from <a href="https://acstuff.ru/patch/?get=0.1.78">https://acstuff.ru/patch/?get=0.1.78</a>. Version v0.1.79 seems is buggy with proton, but there's a fix in v0.1.80 if you have access to that on their patreon. <b>DON'T INSTALL CSP VIA CONTENT MANAGER!</b> This won't properly install dwrite.dll resulting in a corrupted CSP install.</p>
+  
+  <p><b>6.</b> Extract the ZIP file into the root of your game's install directory (dwrite.dll and the extension folder should be where we put Content Manager Safe.exe earlier).</p>
+  <p>All done! Enjoy your game</p>
+</html>
