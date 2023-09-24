@@ -20,7 +20,8 @@
 <p><a href="index.html">Back to Home</a></p>
 <h1>How to get Assetto Corsa running on Linux</h1>
   <p>I made this guide for future reference for me since no other guides online worked, including the ones that use the latest Proton GE. This is a mix of guides I found online and bug reports which show you how to get a working Assetto Corsa, Content Manager, and Sol/Pure install. This guide was last tested on Sep 14, 2023 using Nobara 38.</p>
-<h2>Preparations</h2>
+<hr>
+  <h2>Preparations</h2>
   <p>To get started, we need to make sure there aren't any previous Assetto Corsa or Proton 5 installs. If you've never installed Assetto Corsa or Proton 5 before this, you can skip to step 3.</p>
   
   <p><b>1.</b> Right click Assetto Corsa in your Steam library (If it exists), go to Manage, and Uninstall. Also delete any previous launch options by right clicking Assetto Corsa in your Steam library, going to Properties, and deleting anything under Launch Options (If present).</p>
@@ -34,7 +35,7 @@
   <p><code>rm -r /path-to-your-Steam-folder/steamapps/compdata/1245040</code></p>
   
   <p><b>4.</b> Protontricks is a tool that we will be using to install windows libraries. Here's how to install it: <a href="https://github.com/Matoking/protontricks#installation">https://github.com/Matoking/protontricks#installation</a> If you are using the non-flatpak version of Steam on Fedora/Nobara, just run <code>sudo dnf install protontricks</code></p>
-
+<hr>
   <h2>Base game installation</h2>
   
   <p><b>1.</b> To get started, right click Assetto Corsa in your Steam library, go to Properties, Compatability, select "Force the use of a specific Steam Play compatability tool", and choose Proton 5.0-10 from the dropdown. You can now start the installation of Assetto Corsa.</p>
@@ -67,7 +68,8 @@
   <p><code>protontricks --no-background-wineserver 244210 -q d3dcompiler_47</code></p>
   <p><code>protontricks --no-background-wineserver 244210 win10</code> (When protontricks asks you which version of windows select Windows 10 from the dropdown)</p>
   <p>Congratulations! If you made it this far, you should have a working Assetto Corsa install. If you don't want Content Manager, you can stop following the guide here. Important: Changing the Proton version and launching the game will break your prefix, so you should always have a backup of your pfx directory at /path-to-your-Steam-folder/steamapps/compatdata/244210. That way you can just copy back your backup in case you break your prefix, saving you from having to go through all these steps again.</p>
-<h2>Content Manager installation</h2>
+<hr>
+  <h2>Content Manager installation</h2>
   
   <p><b>1.</b> Firstly, we need to create a symlink to your loginusers.vdf file so Content Manager can find it. Replace the /path-to-your-Steam-folder in the following commands with the actual path to your Steam directory:</p>
   <p><code>mkdir /path-to-your-Steam-folder/steamapps/compatdata/244210/pfx/drive_c/Program\ Files\ \(x86\)/Steam/config</code></p>
@@ -87,7 +89,8 @@
   
   <p><b>7.</b> Launch the game, this might take a while. Set your installation folder by pasting the result from step 6, then set your player name and exit the launcher.</p>
   <p>Nice! Content Manager is set up. Scroll down to install Custom Shaders Patch.</p>
-<h2>Custom Shaders Patch installation</h2>
+<hr>
+  <h2>Custom Shaders Patch installation</h2>
   
   <p><b>1.</b> Run the following command:</p>
   <p><code>protontricks -c winecfg 244210</code></p>
